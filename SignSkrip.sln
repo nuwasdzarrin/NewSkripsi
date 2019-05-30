@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignSkrip", "SignSkrip\SignSkrip.csproj", "{81FFAF3B-D8E1-4305-B1DB-74F022DCCE2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignData", "SignData\SignData.csproj", "{D49C56C7-8C8D-4D1D-A5AC-B53ADB9CDA57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{81FFAF3B-D8E1-4305-B1DB-74F022DCCE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81FFAF3B-D8E1-4305-B1DB-74F022DCCE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81FFAF3B-D8E1-4305-B1DB-74F022DCCE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D49C56C7-8C8D-4D1D-A5AC-B53ADB9CDA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49C56C7-8C8D-4D1D-A5AC-B53ADB9CDA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49C56C7-8C8D-4D1D-A5AC-B53ADB9CDA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49C56C7-8C8D-4D1D-A5AC-B53ADB9CDA57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

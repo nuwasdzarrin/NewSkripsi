@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SignatureDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SignatureTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="author" Type="nvarchar" MaxLength="50" />
+          <Property Name="title" Type="ntext" />
+          <Property Name="subject" Type="ntext" />
+          <Property Name="keyword" Type="ntext" />
+          <Property Name="reason" Type="ntext" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="location" Type="nvarchar" MaxLength="50" />
+          <Property Name="pdfName" Type="nvarchar" MaxLength="50" />
+          <Property Name="certName" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="ntext" />
+        </EntityType>
+        <EntityContainer Name="SignatureDBModelStoreContainer">
+          <EntitySet Name="SignatureTable" EntityType="Self.SignatureTable" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SignatureDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SignatureTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="keyword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pdfName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="certName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SignatureDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SignatureTables" EntityType="Self.SignatureTable" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SignatureDBModelStoreContainer" CdmEntityContainer="SignatureDBEntities">
+          <EntitySetMapping Name="SignatureTables">
+            <EntityTypeMapping TypeName="SignatureDBModel.SignatureTable">
+              <MappingFragment StoreEntitySet="SignatureTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="keyword" ColumnName="keyword" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="pdfName" ColumnName="pdfName" />
+                <ScalarProperty Name="certName" ColumnName="certName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
