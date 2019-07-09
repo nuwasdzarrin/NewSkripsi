@@ -13,12 +13,47 @@ using SignData;
 
 namespace SignSkrip.Controllers
 {
-    [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
+    //[EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
     public class UploadCertController : ApiController
     {
+        public HttpResponseMessage Get(string memberId)
+        {
+            using (SignatureDBEntities entities = new SignatureDBEntities())
+            {
+                try
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, 
+                        entities.Certifys
+                        .Where(e => e.memberId.ToLower() == memberId)
+                        .ToList());
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                }
+
+            }
+        }
+
+        public HttpResponseMessage Get(int Id)
+        {
+            using (SignatureDBEntities entities = new SignatureDBEntities())
+            {
+                try
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.Certifys.Where(e => e.id == Id).ToList());
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                }
+
+            }
+        }
+
         // asynchronous function 
         [Mime]
-        public async Task<FileUploadDetails> Put(int id)
+        public async Task<FileUploadDetails> Post(string memberId)
         {
             // file path
             var fileuploadPath = HttpContext.Current.Server.MapPath("~/UploadFile/sertifikat");
@@ -38,17 +73,14 @@ namespace SignSkrip.Controllers
 
             using (SignatureDBEntities entities = new SignatureDBEntities())
             {
-                var entity = entities.SignatureTables.FirstOrDefault(e => e.id == id);
-                if (entity == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Id tidak ditemukan di table");
-                } else
-                {
-                    entity.certName = nameFile;
-                    entities.SaveChanges();
-                    System.Diagnostics.Debug.WriteLine("Sukses input cert");
-                }
+                Certify certi = new Certify();
+                certi.certificate = nameFile;
+                certi.memberId = memberId;
 
+                entities.Certifys.Add(certi);
+                entities.SaveChanges();
+                int idSign = certi.id;
+                
                 return new FileUploadDetails
                 {
                     FilePath = uploadingFileName,
@@ -59,7 +91,7 @@ namespace SignSkrip.Controllers
 
                     FileCreatedTime = DateTime.Now.ToLongDateString(),
 
-                    IdSign = id
+                    IdSign = idSign
                 };
             }
         }

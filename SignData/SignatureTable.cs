@@ -25,5 +25,8 @@ namespace SignData
         public string pdfName { get; set; }
         public string certName { get; set; }
         public string password { get; set; }
+        public string requestorId { get; set; }
+        public string issuerId { get; set; }
+        public string status { get; set; }
     }
 }

@@ -11,17 +11,38 @@ using System.Web.Http.Cors;
 
 namespace SignSkrip.Controllers
 {
-    [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
+    // [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
     public class SignController : ApiController
     {
         string pathToFiles = HttpContext.Current.Server.MapPath("~/UploadFile/");
-        public HttpResponseMessage Get()
+        public HttpResponseMessage Get(int id)
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
             {
                 try
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entities.SignatureTables.ToList());
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        entities.SignatureTables
+                        .FirstOrDefault(e => e.id == id));
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                }
+
+            }
+        }
+
+        public HttpResponseMessage Get(string issuerId)
+        {
+            using (SignatureDBEntities entities = new SignatureDBEntities())
+            {
+                try
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, 
+                        entities.SignatureTables
+                        .Where(e => e.issuerId.ToLower() == issuerId)
+                        .ToList());
                 }
                 catch (Exception ex)
                 {
@@ -69,12 +90,13 @@ namespace SignSkrip.Controllers
                         entity.reason = signature.reason;
                         entity.email = signature.email;
                         entity.location = signature.location;
-                        entity.password = signature.password;
+                        entity.certName = signature.certName;
+                        entity.issuerId = signature.issuerId;
+                        entity.requestorId = signature.requestorId;
+                        entity.status = "sign";
                         entities.SaveChanges();
                         System.Diagnostics.Debug.WriteLine("Sukses Sign File");
                     }
-                    /*entities.SignatureTables.Add(signature);
-                    entities.SaveChanges();*/
 
                     var message = Request.CreateResponse(HttpStatusCode.Created, signature);
                     message.Headers.Location = new Uri(Request.RequestUri + "/" + signature.id.ToString());

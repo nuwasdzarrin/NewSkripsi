@@ -13,7 +13,7 @@ using System.Web.Http.Cors;
 
 namespace SignSkrip.Controllers
 {
-    [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
+    // [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
     public class UploadPDFController : ApiController
     {
         /*private static Random random = new Random();
@@ -51,7 +51,7 @@ namespace SignSkrip.Controllers
 
             // 
             var multiFormDataStreamProvider = new MultiFileUploadProvider(fileuploadPath);
-
+            
             // Read the MIME multipart asynchronously 
             await Request.Content.ReadAsMultipartAsync(multiFormDataStreamProvider);
 

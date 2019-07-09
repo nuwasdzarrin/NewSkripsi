@@ -25,6 +25,10 @@ namespace SignData
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<Certify> Certifys { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<SignatureTable> SignatureTables { get; set; }
     }
 }

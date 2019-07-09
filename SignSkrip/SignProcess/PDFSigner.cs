@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text;
+using System.Security.Cryptography;
+//using System.Security.Cryptography.X509Certificates;
 
 using org.bouncycastle.crypto;
 using org.bouncycastle.x509;
@@ -192,9 +195,61 @@ namespace SignSkrip.SignProcess
             this.metadata = md;
         }
 
-        public void Verify()
+        /*public void Verify(string pdfFile, Stream fileStream)
         {
-        }
+            
+            //KeyStore kall = PdfPKCS7.loadCacertsKeyStore();
+            var parser = new X509CertificateParser(fileStream);
+            var certifi = parser.ReadCertificate ();
+            fileStream.Dispose();
+
+            string pathToFiles = HttpContext.Current.Server.MapPath("~/UploadFile/output/ForCekTandaTangan.pdf");
+            PdfReader reader = new PdfReader(pathToFiles);
+            AcroFields af = reader.AcroFields;
+            var names = af.GetSignatureNames();
+            if (names.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Tidak ada ttdnya");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("IKI lo TTD ne yooow");
+            }
+            foreach (string name in names)
+            {
+                if (!af.SignatureCoversWholeDocument(name))
+                {
+                    System.Diagnostics.Debug.WriteLine("The signature: {0} does not covers the whole document.", name);
+                }
+                System.Diagnostics.Debug.WriteLine("Signature Name: " + name);
+                System.Diagnostics.Debug.WriteLine("Signature covers whole document: " + af.SignatureCoversWholeDocument(name));
+                System.Diagnostics.Debug.WriteLine("Document revision: " + af.GetRevision(name));
+                
+                PdfPKCS7 pk = af.VerifySignature(name);
+                var cal = pk.SignDate;
+                var pkc = pk.Certificates;
+                // TimeStampToken ts = pk.TimeStampToken;
+                if (!pk.Verify())
+                {
+                    System.Diagnostics.Debug.WriteLine("The signature could not be verified");
+                } else
+                {
+                    System.Diagnostics.Debug.WriteLine("Name signature: " + pk.SignName);
+                    System.Diagnostics.Debug.WriteLine("Reason signature: " + pk.Reason);
+                    System.Diagnostics.Debug.WriteLine("Location signature: " + pk.Location);
+                    System.Diagnostics.Debug.WriteLine("Date signature: " + pk.SignDate);
+                    System.Diagnostics.Debug.WriteLine("Version signature: " + pk.SigningInfoVersion);
+                    System.Diagnostics.Debug.WriteLine("Sertificate signature: " + pk.SigningCertificate);
+                }
+
+                //IList<VerificationException>[] fails = PdfPKCS7.VerifyCertificates(pkc, new X509Certificate[] { certifi }, null, cal);
+                //Object[] fails = PdfPKCS7.VerifyCertificates(pkc, new X509Certificate[] { }, null, cal);
+                //if (fails != null)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("The file is not signed using the specified key-pair.");
+                //}
+            }
+        }*/
 
 
         public void Sign(string SigReason, string SigContact, string SigLocation, bool visible)
