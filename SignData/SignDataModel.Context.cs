@@ -30,5 +30,6 @@ namespace SignData
         public virtual DbSet<Certify> Certifys { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<SignatureTable> SignatureTables { get; set; }
+        public virtual DbSet<SignPic> SignPics { get; set; }
     }
 }

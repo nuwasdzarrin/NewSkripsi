@@ -15,7 +15,7 @@ namespace SignSkrip.Controllers
     {
         [Route("api/User/Register")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Validator")]
         public IdentityResult Register(AccountModel model)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());

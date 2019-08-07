@@ -42,6 +42,15 @@
           <Property Name="issuerId" Type="nvarchar" MaxLength="50" />
           <Property Name="status" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="SignPics">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="memberId" Type="nvarchar" MaxLength="50" />
+          <Property Name="namePic" Type="nvarchar" MaxLength="50" />
+          <Property Name="basePic" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,6 +96,7 @@
           <EntitySet Name="Certifys" EntityType="Self.Certifys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SignatureTable" EntityType="Self.SignatureTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SignPics" EntityType="Self.SignPics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_UserRole_dbo_User_UserId" Association="Self.FK_dbo_UserRole_dbo_User_UserId">
@@ -108,6 +118,7 @@
           <EntitySet Name="Certifys" EntityType="SignatureDBModel.Certify" />
           <EntitySet Name="Members" EntityType="SignatureDBModel.Member" />
           <EntitySet Name="SignatureTables" EntityType="SignatureDBModel.SignatureTable" />
+          <EntitySet Name="SignPics" EntityType="SignatureDBModel.SignPic" />
           </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -189,6 +200,15 @@
           <Property Name="issuerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="SignPic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="memberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="namePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="basePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -259,6 +279,16 @@
                 <ScalarProperty Name="subject" ColumnName="subject" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SignPics">
+            <EntityTypeMapping TypeName="SignatureDBModel.SignPic">
+              <MappingFragment StoreEntitySet="SignPics">
+                <ScalarProperty Name="basePic" ColumnName="basePic" />
+                <ScalarProperty Name="namePic" ColumnName="namePic" />
+                <ScalarProperty Name="memberId" ColumnName="memberId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

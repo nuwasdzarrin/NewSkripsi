@@ -10,6 +10,7 @@ namespace SignSkrip.Controllers
 {
     public class ValidatorController : ApiController
     {
+        [Route("api/validator/sign")]
         public HttpResponseMessage Get()
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
@@ -28,6 +29,7 @@ namespace SignSkrip.Controllers
             }
         }
 
+        [Route("api/validator/sign/detail")]
         public HttpResponseMessage Get(int id)
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
@@ -46,6 +48,7 @@ namespace SignSkrip.Controllers
             }
         }
 
+        [Route("api/validator/updateStatus")]
         public HttpResponseMessage Put(int id, [FromBody] SignatureTable signature)
         {
             try

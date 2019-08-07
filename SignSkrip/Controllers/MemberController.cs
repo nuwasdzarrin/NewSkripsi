@@ -27,6 +27,7 @@ namespace SignSkrip.Controllers
             }
         }
 
+        [Route("api/member/detail")]
         public HttpResponseMessage Get(string memberId)
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
@@ -45,7 +46,7 @@ namespace SignSkrip.Controllers
             }
         }
 
-        [Route("api/member/join")]
+        /*[Route("api/member/join")]
         [HttpGet]
         public HttpResponseMessage GetJoin(string par)
         {
@@ -57,7 +58,7 @@ namespace SignSkrip.Controllers
                                      join f in entities.Members
                                      on d.idMember equals f.id
                                      where f.firstName == "dana"
-                                     select d).ToList(); */
+                                     select d).ToList();
                     //int idmember = 0;
                     var robotDogs = (from d in entities.Certifys
                                      join f in entities.Members
@@ -94,7 +95,7 @@ namespace SignSkrip.Controllers
                       RobotName = d.Name,
                       IsArmed = d.Armed
                     }
-                    */
+                    
 
                     return Request.CreateResponse(HttpStatusCode.OK, robotDogs);
                 }
@@ -105,5 +106,6 @@ namespace SignSkrip.Controllers
 
             }
         }
+        */
     }
 }

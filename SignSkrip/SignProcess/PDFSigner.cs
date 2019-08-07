@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Text;
-using System.Security.Cryptography;
-//using System.Security.Cryptography.X509Certificates;
-
-using org.bouncycastle.crypto;
-using org.bouncycastle.x509;
+﻿using org.bouncycastle.crypto;
 using System.Collections;
 using org.bouncycastle.pkcs;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using iTextSharp.text.xml.xmp;
@@ -250,27 +242,40 @@ namespace SignSkrip.SignProcess
                 //}
             }
         }*/
+        //To disable Multi signatures uncomment this line : every new signature will invalidate older ones ! line 251
+        //PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0'); 
 
-
-        public void Sign(string SigReason, string SigContact, string SigLocation, bool visible)
+        public void Sign(string SigReason, string SigContact,
+            string SigLocation, string pic, bool visible, int posX, int posY)
         {
-            PdfReader reader = new PdfReader(this.inputPDF);
             //Activate MultiSignatures
-            PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0', null, true);
-            //To disable Multi signatures uncomment this line : every new signature will invalidate older ones !
-            //PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0'); 
+            PdfReader reader = new PdfReader(this.inputPDF);
+            PdfStamper st = PdfStamper.CreateSignature(reader,
+                new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write),
+                '\0', null, true);
+
+            //iTextSharp.text.Image sigImg = iTextSharp.text.Image.GetInstance(pic);
+            Image sigImg = Image.GetInstance(pic);
+            // MAX_WIDTH, MAX_HEIGHT
+            sigImg.ScaleToFit(150, 50);
+            // Set signature position on page
+            sigImg.SetAbsolutePosition(posX, 840-posY);
+            // Add signatures to desired page
+            PdfContentByte over = st.GetOverContent(1);
+            over.AddImage(sigImg);
 
             st.MoreInfo = this.metadata.getMetaData();
             st.XmpMetadata = this.metadata.getStreamedMetaData();
             PdfSignatureAppearance sap = st.SignatureAppearance;
 
-            sap.SetCrypto(this.myCert.Akp, this.myCert.Chain, null, PdfSignatureAppearance.WINCER_SIGNED);
+            sap.SetCrypto(this.myCert.Akp, this.myCert.Chain, 
+                null, PdfSignatureAppearance.WINCER_SIGNED);
             sap.Reason = SigReason;
             sap.Contact = SigContact;
             sap.Location = SigLocation;
             if (visible)
-                sap.SetVisibleSignature(new iTextSharp.text.Rectangle(400, 100, 550, 150), 1, null);
-
+                sap.SetVisibleSignature(
+                    new Rectangle(posX, posY, posX + 150, posY + 50), 1, null);
             st.Close();
         }
 

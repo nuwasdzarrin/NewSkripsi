@@ -16,6 +16,7 @@ namespace SignSkrip.Controllers
     //[EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
     public class UploadCertController : ApiController
     {
+        [Route("api/cert/getCert")]
         public HttpResponseMessage Get(string memberId)
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
@@ -35,7 +36,7 @@ namespace SignSkrip.Controllers
             }
         }
 
-        public HttpResponseMessage Get(int Id)
+        /*public HttpResponseMessage Get(int Id)
         {
             using (SignatureDBEntities entities = new SignatureDBEntities())
             {
@@ -49,9 +50,10 @@ namespace SignSkrip.Controllers
                 }
 
             }
-        }
+        } */
 
         // asynchronous function 
+        [Route("api/cert/uploadCert")]
         [Mime]
         public async Task<FileUploadDetails> Post(string memberId)
         {

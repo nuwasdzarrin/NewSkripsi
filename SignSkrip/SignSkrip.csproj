@@ -210,6 +210,7 @@
     <Compile Include="Controllers\SignController.cs" />
     <Compile Include="Controllers\UploadCertController.cs" />
     <Compile Include="Controllers\UploadPDFController.cs" />
+    <Compile Include="Controllers\UploadPicSignController.cs" />
     <Compile Include="Controllers\ValidatorController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VerifyController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\m_signature.cs" />
     <Compile Include="Models\m_verify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignProcess\PDFSigner.cs" />
