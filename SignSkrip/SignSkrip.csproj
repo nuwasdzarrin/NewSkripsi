@@ -212,7 +212,6 @@
     <Compile Include="Controllers\UploadPDFController.cs" />
     <Compile Include="Controllers\UploadPicSignController.cs" />
     <Compile Include="Controllers\ValidatorController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VerifyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -233,6 +232,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignProcess\PDFSigner.cs" />
     <Compile Include="SignProcess\PDFVerify.cs" />
+    <Compile Include="SignProcess\PictureSign.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UploadRepo\FileUploadDetails.cs" />
     <Compile Include="UploadRepo\Mime.cs" />

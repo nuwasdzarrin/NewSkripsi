@@ -43,13 +43,14 @@ namespace SignSkrip.Controllers
                     return Request.CreateResponse(HttpStatusCode.OK, 
                         entities.SignatureTables
                         .Where(e => e.issuerId.ToLower() == memberId)
+                        .Where(f => f.approval == 1)
+                        .OrderByDescending(g => g.id)
                         .ToList());
                 }
                 catch (Exception ex)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
                 }
-
             }
         }
 
@@ -113,6 +114,7 @@ namespace SignSkrip.Controllers
                         entity.issuerId = signature.issuerId;
                         entity.requestorId = signature.requestorId;
                         entity.status = "sign";
+                        entity.approval = 1;
                         entities.SaveChanges();
                         System.Diagnostics.Debug.WriteLine("Sukses Sign File");
                     }

@@ -37,10 +37,11 @@
           <Property Name="location" Type="nvarchar" MaxLength="50" />
           <Property Name="pdfName" Type="nvarchar" MaxLength="50" />
           <Property Name="certName" Type="nvarchar" MaxLength="50" />
-          <Property Name="password" Type="ntext" />
           <Property Name="requestorId" Type="nvarchar" MaxLength="50" />
           <Property Name="issuerId" Type="nvarchar" MaxLength="50" />
           <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="doubleSign" Type="int" />
+          <Property Name="approval" Type="int" />
         </EntityType>
         <EntityType Name="SignPics">
           <Key>
@@ -117,8 +118,8 @@
           </AssociationSet>
           <EntitySet Name="Certifys" EntityType="SignatureDBModel.Certify" />
           <EntitySet Name="Members" EntityType="SignatureDBModel.Member" />
-          <EntitySet Name="SignatureTables" EntityType="SignatureDBModel.SignatureTable" />
           <EntitySet Name="SignPics" EntityType="SignatureDBModel.SignPic" />
+          <EntitySet Name="SignatureTables" EntityType="SignatureDBModel.SignatureTable" />
           </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -181,6 +182,15 @@
           <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="memberRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="SignPic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="memberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="namePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="basePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="SignatureTable">
           <Key>
             <PropertyRef Name="id" />
@@ -195,19 +205,11 @@
           <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="pdfName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="certName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="requestorId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="issuerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="SignPic">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="memberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="namePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="basePic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="doubleSign" Type="Int32" />
+          <Property Name="approval" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -263,13 +265,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SignPics">
+            <EntityTypeMapping TypeName="SignatureDBModel.SignPic">
+              <MappingFragment StoreEntitySet="SignPics">
+                <ScalarProperty Name="basePic" ColumnName="basePic" />
+                <ScalarProperty Name="namePic" ColumnName="namePic" />
+                <ScalarProperty Name="memberId" ColumnName="memberId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SignatureTables">
             <EntityTypeMapping TypeName="SignatureDBModel.SignatureTable">
               <MappingFragment StoreEntitySet="SignatureTable">
+                <ScalarProperty Name="approval" ColumnName="approval" />
+                <ScalarProperty Name="doubleSign" ColumnName="doubleSign" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="issuerId" ColumnName="issuerId" />
                 <ScalarProperty Name="requestorId" ColumnName="requestorId" />
-                <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="certName" ColumnName="certName" />
                 <ScalarProperty Name="pdfName" ColumnName="pdfName" />
                 <ScalarProperty Name="location" ColumnName="location" />
@@ -279,16 +292,6 @@
                 <ScalarProperty Name="subject" ColumnName="subject" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="author" ColumnName="author" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SignPics">
-            <EntityTypeMapping TypeName="SignatureDBModel.SignPic">
-              <MappingFragment StoreEntitySet="SignPics">
-                <ScalarProperty Name="basePic" ColumnName="basePic" />
-                <ScalarProperty Name="namePic" ColumnName="namePic" />
-                <ScalarProperty Name="memberId" ColumnName="memberId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
