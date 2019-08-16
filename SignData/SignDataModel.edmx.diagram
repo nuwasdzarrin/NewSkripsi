@@ -10,8 +10,8 @@
         <AssociationConnector Association="SignatureDBModel.FK_dbo_UserRole_dbo_User_UserId" />
         <EntityTypeShape EntityType="SignatureDBModel.Certify" Width="1.5" PointX="6.375" PointY="0.875" />
         <EntityTypeShape EntityType="SignatureDBModel.Member" Width="1.5" PointX="8.125" PointY="0.75" />
-        <EntityTypeShape EntityType="SignatureDBModel.SignatureTable" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="SignatureDBModel.SignPic" Width="1.5" PointX="7.75" PointY="3.25" />
+        <EntityTypeShape EntityType="SignatureDBModel.SignatureTable" Width="1.5" PointX="4.75" PointY="3.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

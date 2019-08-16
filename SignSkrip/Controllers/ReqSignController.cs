@@ -19,7 +19,11 @@ namespace SignSkrip.Controllers
             {
                 try
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entities.SignatureTables.Where(e => e.requestorId.ToLower() == memberId).ToList());
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        entities.SignatureTables
+                        .Where(e => e.requestorId.ToLower() == memberId)
+                        .OrderByDescending(f => f.id)
+                        .ToList());
                 }
                 catch (Exception ex)
                 {
@@ -92,35 +96,10 @@ namespace SignSkrip.Controllers
             string pathToFiles = HttpContext.Current.Server.MapPath("~/UploadFile/");
             try
             {
-                /*section processing certificate*/
-                Cert myCert = null;
-                try
-                {
-                    myCert = new Cert(
-                        pathToFiles + "sertifikat/" + signature.certName,
-                        signature.password
-                        );
-                }
-                catch (Exception ex)
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-                }
-
-                /*section processing Signature*/
-                MetaData MyMD = new MetaData();
-                MyMD.Author = signature.author;
-                MyMD.Title = signature.title;
-                MyMD.Subject = signature.subject;
-                MyMD.Keywords = signature.keyword;
-
-                PDFSigner pdfs = new PDFSigner(
-                    pathToFiles + "input/" + signature.pdfName,
+                PictureSign picture = new PictureSign();
+                picture.Sign(pathToFiles + "input/" + signature.pdfName,
                     pathToFiles + "input/sign_" + signature.pdfName,
-                    myCert,
-                    MyMD
-                    );
-                pdfs.Sign(signature.reason, signature.email, signature.location,
-                    pathToFiles + "pic/" + signature.picName, signature.visible,
+                    pathToFiles + "pic/" + signature.picName,
                     signature.posX, signature.posY
                     );
 
@@ -143,11 +122,10 @@ namespace SignSkrip.Controllers
                         entity.keyword = signature.keyword;
                         entity.reason = signature.reason;
                         entity.email = signature.email;
-                        entity.location = signature.location;
-                        entity.certName = signature.certName;
                         entity.issuerId = signature.issuerId;
                         entity.requestorId = signature.requestorId;
-                        entity.status = "request";
+                        entity.status = "waiting";
+                        entity.doubleSign = 1;
                         entities.SaveChanges();
                         System.Diagnostics.Debug.WriteLine("Sukses Sign File");
                     }

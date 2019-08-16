@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using SignSkrip.Models;
+using SignData;
 
 namespace SignSkrip.Controllers
 {
@@ -29,6 +30,24 @@ namespace SignSkrip.Controllers
             };
             IdentityResult result = manager.Create(user, model.Password);
             manager.AddToRoles(user.Id, model.Roles);
+            using (SignatureDBEntities entities = new SignatureDBEntities())
+            {
+                try
+                {
+                    Member member = new Member();
+                    member.memberId = user.Id;
+                    member.firstName =model.FirstName;
+                    member.lastName =model.LastName;
+                    member.memberRole =model.Roles[0];
+
+                    entities.Members.Add(member);
+                    entities.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
             return result;
         }
 
@@ -48,30 +67,6 @@ namespace SignSkrip.Controllers
                 LoggedOn = identityClaims.FindFirst("LoggedOn").Value
             };
             return model;
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Issuer")]
-        [Route("api/ForIssuerRole")]
-        public string ForIssuerRole()
-        {
-            return "for issuer role";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Dosen")]
-        [Route("api/ForDosenRole")]
-        public string ForDosenRole()
-        {
-            return "For dosen role";
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Dosen,Mahasiswa")]
-        [Route("api/ForDosenOrMahasiswa")]
-        public string ForDosenOrMahasiswa()
-        {
-            return "For dosen/mahasiswa role";
         }
     }
 }

@@ -42,7 +42,6 @@ namespace SignSkrip.Controllers
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
                 }
-
             }
         }
 

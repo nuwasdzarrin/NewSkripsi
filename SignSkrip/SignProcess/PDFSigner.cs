@@ -275,7 +275,7 @@ namespace SignSkrip.SignProcess
             sap.Location = SigLocation;
             if (visible)
                 sap.SetVisibleSignature(
-                    new Rectangle(posX, posY, posX + 150, posY + 50), 1, null);
+                    new Rectangle(posX, 840 - posY, posX + 150, (840 - posY) + 50), 1, null);
             st.Close();
         }
 

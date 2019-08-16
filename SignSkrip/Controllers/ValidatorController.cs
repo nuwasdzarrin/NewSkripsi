@@ -63,6 +63,7 @@ namespace SignSkrip.Controllers
                     else
                     {
                         entity.status = signature.status;
+                        entity.approval = signature.approval;
                         entities.SaveChanges();
                         System.Diagnostics.Debug.WriteLine("Sukses Sign File");
                     }
