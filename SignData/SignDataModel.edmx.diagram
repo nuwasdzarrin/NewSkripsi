@@ -4,8 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b58df4247e854a8f9058df123372f6ae" Name="Diagram1">
-        <EntityTypeShape EntityType="SignatureDBModel.SignatureTable" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="b58df4247e854a8f9058df123372f6ae" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="SignatureDBModel.User" Width="1.5" PointX="2.375" PointY="0.875" />
+        <EntityTypeShape EntityType="SignatureDBModel.UserRole" Width="1.5" PointX="4.625" PointY="1.75" />
+        <AssociationConnector Association="SignatureDBModel.FK_dbo_UserRole_dbo_User_UserId" />
+        <EntityTypeShape EntityType="SignatureDBModel.Certify" Width="1.5" PointX="6.375" PointY="0.875" />
+        <EntityTypeShape EntityType="SignatureDBModel.Member" Width="1.5" PointX="8.125" PointY="0.75" />
+        <EntityTypeShape EntityType="SignatureDBModel.SignatureTable" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="SignatureDBModel.SignPic" Width="1.5" PointX="7.75" PointY="3.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

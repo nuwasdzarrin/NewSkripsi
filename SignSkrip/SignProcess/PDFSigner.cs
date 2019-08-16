@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using org.bouncycastle.crypto;
-using org.bouncycastle.x509;
+﻿using org.bouncycastle.crypto;
 using System.Collections;
 using org.bouncycastle.pkcs;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using iTextSharp.text.xml.xmp;
@@ -192,30 +187,95 @@ namespace SignSkrip.SignProcess
             this.metadata = md;
         }
 
-        public void Verify()
+        /*public void Verify(string pdfFile, Stream fileStream)
         {
-        }
+            
+            //KeyStore kall = PdfPKCS7.loadCacertsKeyStore();
+            var parser = new X509CertificateParser(fileStream);
+            var certifi = parser.ReadCertificate ();
+            fileStream.Dispose();
 
+            string pathToFiles = HttpContext.Current.Server.MapPath("~/UploadFile/output/ForCekTandaTangan.pdf");
+            PdfReader reader = new PdfReader(pathToFiles);
+            AcroFields af = reader.AcroFields;
+            var names = af.GetSignatureNames();
+            if (names.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Tidak ada ttdnya");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("IKI lo TTD ne yooow");
+            }
+            foreach (string name in names)
+            {
+                if (!af.SignatureCoversWholeDocument(name))
+                {
+                    System.Diagnostics.Debug.WriteLine("The signature: {0} does not covers the whole document.", name);
+                }
+                System.Diagnostics.Debug.WriteLine("Signature Name: " + name);
+                System.Diagnostics.Debug.WriteLine("Signature covers whole document: " + af.SignatureCoversWholeDocument(name));
+                System.Diagnostics.Debug.WriteLine("Document revision: " + af.GetRevision(name));
+                
+                PdfPKCS7 pk = af.VerifySignature(name);
+                var cal = pk.SignDate;
+                var pkc = pk.Certificates;
+                // TimeStampToken ts = pk.TimeStampToken;
+                if (!pk.Verify())
+                {
+                    System.Diagnostics.Debug.WriteLine("The signature could not be verified");
+                } else
+                {
+                    System.Diagnostics.Debug.WriteLine("Name signature: " + pk.SignName);
+                    System.Diagnostics.Debug.WriteLine("Reason signature: " + pk.Reason);
+                    System.Diagnostics.Debug.WriteLine("Location signature: " + pk.Location);
+                    System.Diagnostics.Debug.WriteLine("Date signature: " + pk.SignDate);
+                    System.Diagnostics.Debug.WriteLine("Version signature: " + pk.SigningInfoVersion);
+                    System.Diagnostics.Debug.WriteLine("Sertificate signature: " + pk.SigningCertificate);
+                }
 
-        public void Sign(string SigReason, string SigContact, string SigLocation, bool visible)
+                //IList<VerificationException>[] fails = PdfPKCS7.VerifyCertificates(pkc, new X509Certificate[] { certifi }, null, cal);
+                //Object[] fails = PdfPKCS7.VerifyCertificates(pkc, new X509Certificate[] { }, null, cal);
+                //if (fails != null)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("The file is not signed using the specified key-pair.");
+                //}
+            }
+        }*/
+        //To disable Multi signatures uncomment this line : every new signature will invalidate older ones ! line 251
+        //PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0'); 
+
+        public void Sign(string SigReason, string SigContact,
+            string SigLocation, string pic, bool visible, int posX, int posY)
         {
-            PdfReader reader = new PdfReader(this.inputPDF);
             //Activate MultiSignatures
-            PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0', null, true);
-            //To disable Multi signatures uncomment this line : every new signature will invalidate older ones !
-            //PdfStamper st = PdfStamper.CreateSignature(reader, new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write), '\0'); 
+            PdfReader reader = new PdfReader(this.inputPDF);
+            PdfStamper st = PdfStamper.CreateSignature(reader,
+                new FileStream(this.outputPDF, FileMode.Create, FileAccess.Write),
+                '\0', null, true);
+
+            //iTextSharp.text.Image sigImg = iTextSharp.text.Image.GetInstance(pic);
+            Image sigImg = Image.GetInstance(pic);
+            // MAX_WIDTH, MAX_HEIGHT
+            sigImg.ScaleToFit(150, 50);
+            // Set signature position on page
+            sigImg.SetAbsolutePosition(posX, 840-posY);
+            // Add signatures to desired page
+            PdfContentByte over = st.GetOverContent(1);
+            over.AddImage(sigImg);
 
             st.MoreInfo = this.metadata.getMetaData();
             st.XmpMetadata = this.metadata.getStreamedMetaData();
             PdfSignatureAppearance sap = st.SignatureAppearance;
 
-            sap.SetCrypto(this.myCert.Akp, this.myCert.Chain, null, PdfSignatureAppearance.WINCER_SIGNED);
+            sap.SetCrypto(this.myCert.Akp, this.myCert.Chain, 
+                null, PdfSignatureAppearance.WINCER_SIGNED);
             sap.Reason = SigReason;
             sap.Contact = SigContact;
             sap.Location = SigLocation;
             if (visible)
-                sap.SetVisibleSignature(new iTextSharp.text.Rectangle(400, 100, 550, 150), 1, null);
-
+                sap.SetVisibleSignature(
+                    new Rectangle(posX, posY, posX + 150, posY + 50), 1, null);
             st.Close();
         }
 

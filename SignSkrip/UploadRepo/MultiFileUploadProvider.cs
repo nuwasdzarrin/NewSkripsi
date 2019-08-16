@@ -13,7 +13,8 @@ namespace SignSkrip.UploadRepo
 
         public override string GetLocalFileName(HttpContentHeaders headers)
         {
-            if (headers != null && headers.ContentDisposition != null)
+            if (headers != null &&
+                headers.ContentDisposition != null)
             {
                 return headers
                     .ContentDisposition

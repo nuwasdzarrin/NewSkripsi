@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,9 +14,35 @@ using System.Web.Http.Cors;
 
 namespace SignSkrip.Controllers
 {
-    [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
+    // [EnableCorsAttribute("http://localhost:8080", "*", "GET, POST, PUT, DELETE")]
     public class UploadPDFController : ApiController
     {
+        //get file pdf
+        [AllowAnonymous]
+        [Route("api/pdf/getPDF")]
+        public HttpResponseMessage Get(string nameFile)
+        {
+            var fileuploadPath = HttpContext.Current.Server.MapPath("~/UploadFile/input/"+nameFile);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            FileStream fileStream = File.OpenRead(fileuploadPath);
+            response.Content = new StreamContent(fileStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+
+            return response;
+        }
+
+        [AllowAnonymous]
+        [Route("api/pdf/getSignPDF")]
+        public HttpResponseMessage GetSignPDF(string signFile)
+        {
+            var fileuploadPath = HttpContext.Current.Server.MapPath("~/UploadFile/output/" + signFile);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            FileStream fileStream = File.OpenRead(fileuploadPath);
+            response.Content = new StreamContent(fileStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+
+            return response;
+        }
         /*private static Random random = new Random();
         public static string RandomString(int length)
         {
@@ -24,25 +51,9 @@ namespace SignSkrip.Controllers
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }*/
 
-        /*public static string ResolveServerUrl(string serverUrl, bool forceHttps)
-        {
-            if (serverUrl.IndexOf("://") > -1)
-                return serverUrl;
-
-            string newUrl = serverUrl;
-            Uri originalUri = System.Web.HttpContext.Current.Request.Url;
-            newUrl = (forceHttps ? "https" : originalUri.Scheme) +
-                "://" + originalUri.Authority + newUrl;
-            return newUrl;
-        }
-
-        public string get()
-        {
-            var url = ResolveServerUrl(VirtualPathUtility.ToAbsolute("~/UploadFile/input/ForCekTandaTangan.pdf"),false);
-            return url;
-        }*/
 
         // asynchronous function 
+        [Route("api/pdf/uploadPDF")]
         [Mime]
         public async Task<FileUploadDetails> Post()
         {
@@ -51,7 +62,7 @@ namespace SignSkrip.Controllers
 
             // 
             var multiFormDataStreamProvider = new MultiFileUploadProvider(fileuploadPath);
-
+            
             // Read the MIME multipart asynchronously 
             await Request.Content.ReadAsMultipartAsync(multiFormDataStreamProvider);
 
